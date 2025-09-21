@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitoo_flutter/src/features/auth/presentation/login_page.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -16,8 +17,12 @@ class RegisterPage extends StatelessWidget {
             const Text('Register Page'),
             const SizedBox(height: 12),
             FilledButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
-              child: const Text('Registrar (placeholder)'),
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                LoginPage.route,
+                (route) => false,
+              ),
+              child: const Text('Registrar'),
             ),
           ],
         ),

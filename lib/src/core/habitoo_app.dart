@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitoo_flutter/src/features/auth/presentation/login_page.dart';
 import 'package:habitoo_flutter/src/features/auth/presentation/register_page.dart';
-import 'package:habitoo_flutter/src/features/auth/presentation/home_page.dart';
+import 'package:habitoo_flutter/src/features/home/presentation/home_page.dart';
 
 class HabitooApp extends StatelessWidget {
   const HabitooApp({super.key});

@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 12),
             FilledButton(
               onPressed: () => Navigator.pushReplacementNamed(context, '/home'),
-              child: const Text('Entrar (placeholder)'),
+              child: const Text('Entrar'),
             ),
             TextButton(
               onPressed: () => Navigator.pushNamed(context, RegisterPage.route),
