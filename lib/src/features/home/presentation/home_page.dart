@@ -93,12 +93,13 @@ class _HomePageState extends State<HomePage> {
                 hintText: 'Novo hábito...',
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  onPressed: _addHabit,
+                  onPressed: _habitCtrl.text.trim().isEmpty ? null : _addHabit,
                   icon: const Icon(Icons.add),
                   tooltip: 'Adicionar',
                 ),
               ),
             ),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
