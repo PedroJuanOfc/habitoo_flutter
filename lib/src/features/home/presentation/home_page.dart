@@ -130,6 +130,31 @@ class _HomePageState extends State<HomePage> {
                         return Dismissible(
                           key: ValueKey('habit_$index'),
                           direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            final removed = _habits[index];
+                            final removedIndex = index;
+
+                            setState(() {
+                              _habits.removeAt(removedIndex);
+                            });
+
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(
+                                SnackBar(
+                                  content: Text('Hábito removido: $removed'),
+                                  action: SnackBarAction(
+                                    label: 'Desfazer',
+                                    onPressed: () {
+                                      setState(() {
+                                        _habits.insert(removedIndex, removed);
+                                      });
+                                    },
+                                  ),
+                                  duration: const Duration(seconds: 4),
+                                ),
+                              );
+                          },
                           background: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -155,7 +180,13 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             child: ListTile(
                               title: Text(h),
-                              onTap: () => _onHabitTap(index),
+                              onTap: () =>
+                                  _onHabitTap(index),
+                              trailing: IconButton(
+                                tooltip: 'Editar',
+                                icon: const Icon(Icons.edit_outlined),
+                                onPressed: () => _onHabitTap(index),
+                              ),
                             ),
                           ),
                         );
