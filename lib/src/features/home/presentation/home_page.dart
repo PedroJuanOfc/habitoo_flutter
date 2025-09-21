@@ -27,6 +27,44 @@ class _HomePageState extends State<HomePage> {
     _habitCtrl.clear();
   }
 
+  void _onHabitTap(int index) async {
+    final current = _habits[index];
+    final edited = await _promptEditHabit(current);
+    if (edited != null && edited.isNotEmpty && edited != current) {
+      setState(() {
+        _habits[index] = edited;
+      });
+    }
+  }
+
+  Future<String?> _promptEditHabit(String initial) async {
+    final ctrl = TextEditingController(text: initial);
+    return showDialog<String>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Editar hábito'),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: 'Descreva o hábito...',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, ctrl.text.trim()),
+            child: const Text('Salvar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +108,12 @@ class _HomePageState extends State<HomePage> {
                       separatorBuilder: (_, __) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final h = _habits[index];
-                        return Card(child: ListTile(title: Text(h)));
+                        return Card(
+                          child: ListTile(
+                            title: Text(h),
+                            onTap: () => _onHabitTap(index),
+                          ),
+                        );
                       },
                     ),
             ),
