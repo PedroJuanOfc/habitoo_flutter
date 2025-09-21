@@ -37,6 +37,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _saveHabits() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_kHabitsKey, List.unmodifiable(_habits));
+  }
+
   @override
   void dispose() {
     _habitCtrl.dispose();
@@ -52,8 +57,8 @@ class _HomePageState extends State<HomePage> {
     });
 
     _habitCtrl.clear();
-
     FocusScope.of(context).unfocus();
+    _saveHabits();
   }
 
   void _onHabitTap(int index) async {
@@ -63,6 +68,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _habits[index] = edited;
       });
+      await _saveHabits();
     }
   }
 
@@ -120,7 +126,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -167,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                             setState(() {
                               _habits.removeAt(removedIndex);
                             });
-
+                            _saveHabits();
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(
@@ -179,6 +184,7 @@ class _HomePageState extends State<HomePage> {
                                       setState(() {
                                         _habits.insert(removedIndex, removed);
                                       });
+                                      _saveHabits();
                                     },
                                   ),
                                   duration: const Duration(seconds: 4),
