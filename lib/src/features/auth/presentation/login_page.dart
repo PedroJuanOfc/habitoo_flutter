@@ -21,7 +21,8 @@ class LoginPage extends StatelessWidget {
               child: const Text('Entrar'),
             ),
             TextButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, RegisterPage.route),
+              onPressed: () =>
+                  Navigator.pushReplacementNamed(context, RegisterPage.route),
               child: const Text('Criar conta'),
             ),
           ],
