@@ -9,6 +9,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _habitCtrl = TextEditingController();
+  final List<String> _habits = [];
+
+  @override
+  void dispose() {
+    _habitCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
