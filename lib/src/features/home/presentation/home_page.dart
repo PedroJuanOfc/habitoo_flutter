@@ -13,6 +13,14 @@ class _HomePageState extends State<HomePage> {
   final List<String> _habits = [];
 
   @override
+  void initState() {
+    super.initState();
+    _habitCtrl.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   void dispose() {
     _habitCtrl.dispose();
     super.dispose();
@@ -180,8 +188,7 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             child: ListTile(
                               title: Text(h),
-                              onTap: () =>
-                                  _onHabitTap(index),
+                              onTap: () => _onHabitTap(index),
                               trailing: IconButton(
                                 tooltip: 'Editar',
                                 icon: const Icon(Icons.edit_outlined),
