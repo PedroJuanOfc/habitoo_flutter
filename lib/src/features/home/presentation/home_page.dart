@@ -18,6 +18,15 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void _addHabit() {
+    final text = _habitCtrl.text.trim();
+    if (text.isEmpty) return;
+    setState(() {
+      _habits.add(text);
+    });
+    _habitCtrl.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
