@@ -24,6 +24,10 @@ class RegisterPage extends StatelessWidget {
               ),
               child: const Text('Registrar'),
             ),
+            TextButton(
+              onPressed: () => Navigator.pushReplacementNamed(context, LoginPage.route),
+              child: const Text('Fazer Login'),
+            ),
           ],
         ),
       ),

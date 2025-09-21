@@ -10,6 +10,16 @@ class HabitooApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFF6750A4),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFF6750A4),
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
       initialRoute: LoginPage.route,
       routes: {
         LoginPage.route: (_) => const LoginPage(),
