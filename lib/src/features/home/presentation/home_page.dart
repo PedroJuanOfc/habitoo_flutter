@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
             Text('Habitos', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             TextField(
+              controller: _habitCtrl,
               decoration: InputDecoration(
                 hintText: 'Novo hábito...',
                 border: const OutlineInputBorder(),
