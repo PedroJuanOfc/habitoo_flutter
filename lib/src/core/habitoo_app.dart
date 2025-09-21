@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habitoo_flutter/src/features/auth/presentation/login_page.dart';
+import 'package:habitoo_flutter/src/features/auth/presentation/register_page.dart';
+import 'package:habitoo_flutter/src/features/auth/presentation/home_page.dart';
 
 class HabitooApp extends StatelessWidget {
   const HabitooApp({super.key});
@@ -7,17 +10,12 @@ class HabitooApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: _PlaceholderHome(),
-    );
-  }
-}
-
-class _PlaceholderHome extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Habitoo')),
-      body: Center(child: Text('Hábitos')),
+      initialRoute: LoginPage.route,
+      routes: {
+        LoginPage.route: (_) => const LoginPage(),
+        RegisterPage.route: (_) => const RegisterPage(),
+        HomePage.route: (_) => const HomePage(),
+      },
     );
   }
 }
