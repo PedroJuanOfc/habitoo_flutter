@@ -29,10 +29,14 @@ class _HomePageState extends State<HomePage> {
   void _addHabit() {
     final text = _habitCtrl.text.trim();
     if (text.isEmpty) return;
+
     setState(() {
       _habits.add(text);
     });
+
     _habitCtrl.clear();
+
+    FocusScope.of(context).unfocus();
   }
 
   void _onHabitTap(int index) async {
