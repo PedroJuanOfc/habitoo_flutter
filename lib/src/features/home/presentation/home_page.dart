@@ -91,7 +91,26 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  size: 14,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 6),
+                Flexible(
+                  child: Text(
+                    'Dica: arraste para a esquerda para excluir • Toque no hábito para editar',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             Expanded(
               child: _habits.isEmpty
                   ? Align(
@@ -108,10 +127,36 @@ class _HomePageState extends State<HomePage> {
                       separatorBuilder: (_, __) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final h = _habits[index];
-                        return Card(
-                          child: ListTile(
-                            title: Text(h),
-                            onTap: () => _onHabitTap(index),
+                        return Dismissible(
+                          key: ValueKey('habit_$index'),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            color: Theme.of(context).colorScheme.errorContainer,
+                            child: Icon(
+                              Icons.delete,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onErrorContainer,
+                            ),
+                          ),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            color: Theme.of(context).colorScheme.errorContainer,
+                            child: Icon(
+                              Icons.delete,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onErrorContainer,
+                            ),
+                          ),
+                          child: Card(
+                            child: ListTile(
+                              title: Text(h),
+                              onTap: () => _onHabitTap(index),
+                            ),
                           ),
                         );
                       },
