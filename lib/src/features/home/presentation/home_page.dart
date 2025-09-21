@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +12,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _habitCtrl = TextEditingController();
   final List<String> _habits = [];
+  static const _kHabitsKey = 'habits';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _habitCtrl.addListener(() {
+      setState(() {});
+    });
+
+    _loadHabits();
+  }
+
+  Future<void> _loadHabits() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getStringList(_kHabitsKey) ?? const [];
+    if (mounted) {
+      setState(() {
+        _habits
+          ..clear()
+          ..addAll(stored);
+      });
+    }
+  }
+
+  Future<void> _saveHabits() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_kHabitsKey, List.unmodifiable(_habits));
+  }
 
   @override
   void dispose() {
@@ -21,10 +51,14 @@ class _HomePageState extends State<HomePage> {
   void _addHabit() {
     final text = _habitCtrl.text.trim();
     if (text.isEmpty) return;
+
     setState(() {
       _habits.add(text);
     });
+
     _habitCtrl.clear();
+    FocusScope.of(context).unfocus();
+    _saveHabits();
   }
 
   void _onHabitTap(int index) async {
@@ -34,6 +68,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _habits[index] = edited;
       });
+      await _saveHabits();
     }
   }
 
@@ -85,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                 hintText: 'Novo hábito...',
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  onPressed: _addHabit,
+                  onPressed: _habitCtrl.text.trim().isEmpty ? null : _addHabit,
                   icon: const Icon(Icons.add),
                   tooltip: 'Adicionar',
                 ),
@@ -137,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                             setState(() {
                               _habits.removeAt(removedIndex);
                             });
-
+                            _saveHabits();
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(
@@ -149,6 +184,7 @@ class _HomePageState extends State<HomePage> {
                                       setState(() {
                                         _habits.insert(removedIndex, removed);
                                       });
+                                      _saveHabits();
                                     },
                                   ),
                                   duration: const Duration(seconds: 4),
@@ -180,8 +216,7 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             child: ListTile(
                               title: Text(h),
-                              onTap: () =>
-                                  _onHabitTap(index),
+                              onTap: () => _onHabitTap(index),
                               trailing: IconButton(
                                 tooltip: 'Editar',
                                 icon: const Icon(Icons.edit_outlined),
