@@ -54,11 +54,25 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              'Nenhum hábito ainda.\nComece criando um hábito acima. Você poderá editar depois.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            Expanded(
+              child: _habits.isEmpty
+                  ? Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Nenhum hábito ainda.\nComece criando um hábito acima. Você poderá editar depois.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: _habits.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final h = _habits[index];
+                        return Card(child: ListTile(title: Text(h)));
+                      },
+                    ),
             ),
           ],
         ),
