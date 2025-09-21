@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,13 +12,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _habitCtrl = TextEditingController();
   final List<String> _habits = [];
+  static const _kHabitsKey = 'habits';
 
   @override
   void initState() {
     super.initState();
+
     _habitCtrl.addListener(() {
       setState(() {});
     });
+
+    _loadHabits();
+  }
+
+  Future<void> _loadHabits() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getStringList(_kHabitsKey) ?? const [];
+    if (mounted) {
+      setState(() {
+        _habits
+          ..clear()
+          ..addAll(stored);
+      });
+    }
   }
 
   @override
