@@ -42,11 +42,12 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8),
             TextField(
               controller: _habitCtrl,
+              onSubmitted: (_) => _addHabit(),
               decoration: InputDecoration(
                 hintText: 'Novo hábito...',
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
-                  onPressed: null,
+                  onPressed: _addHabit,
                   icon: const Icon(Icons.add),
                   tooltip: 'Adicionar',
                 ),
